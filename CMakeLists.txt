@@ -7,8 +7,9 @@ set (YAML_VERSION_MINOR 2)
 set (YAML_VERSION_PATCH 2)
 set (YAML_VERSION_STRING "${YAML_VERSION_MAJOR}.${YAML_VERSION_MINOR}.${YAML_VERSION_PATCH}")
 
-option(BUILD_SHARED_LIBS "Build libyaml as a shared library" OFF)
+option(BUILD_SHARED_LIBS "Build libyaml as a shared library" ON)
 option(YAML_STATIC_LIB_NAME "base name of static library output" yaml)
+option(YAML_BUILD_TESTING "Build libyaml CTest tests" OFF)
 
 #
 # Output directories for a build tree
@@ -98,9 +99,11 @@ install(
 #
 # Add tests
 #
-include(CTest) # This module defines BUILD_TESTING option
-if(BUILD_TESTING)
-  add_subdirectory(tests)
+if(YAML_BUILD_TESTING)
+  include(CTest) # This module defines BUILD_TESTING option
+  if(BUILD_TESTING)
+    add_subdirectory(tests)
+  endif()
 endif()
 
 #
